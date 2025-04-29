@@ -1,0 +1,107 @@
+import psycopg2
+import pandas as pd
+
+# 💡 HIER deine Zugangsdaten eintragen
+DB_HOST = "localhost"
+DB_PORT = 5432
+DB_NAME = "trading_simulation"
+DB_USER = "finnbudnik"
+DB_PASSWORD = "Finn"
+
+def get_connection():
+    return psycopg2.connect(
+        host=DB_HOST,
+        port=DB_PORT,
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD
+    )
+
+def get_all_surveys():
+    conn = get_connection()
+    df = pd.read_sql_query("SELECT * FROM survey", conn)
+    conn.close()
+    return df
+
+def get_all_actions():
+    conn = get_connection()
+    df = pd.read_sql_query("SELECT * FROM actions", conn)
+    conn.close()
+    return df
+
+def get_all_results():
+    conn = get_connection()
+    df = pd.read_sql_query("SELECT * FROM results", conn)
+    conn.close()
+    return df
+
+def init_db():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS survey (
+                        user_id TEXT PRIMARY KEY,
+                        age INTEGER,
+                        experience TEXT,
+                        ip_address TEXT)''')
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS actions (
+                        id SERIAL PRIMARY KEY,
+                        user_id TEXT,
+                        period INTEGER,
+                        action TEXT,
+                        stock_name TEXT,
+                        amount INTEGER,
+                        price REAL)''')
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS results (
+                        user_id TEXT PRIMARY KEY,
+                        total_value REAL)''')
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def save_survey(user_id, age, experience, ip_address=None):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''INSERT INTO survey (user_id, age, experience, ip_address)
+                      VALUES (%s, %s, %s, %s)
+                      ON CONFLICT (user_id) DO UPDATE
+                      SET age = EXCLUDED.age,
+                          experience = EXCLUDED.experience,
+                          ip_address = EXCLUDED.ip_address''',
+                   (user_id, age, experience, ip_address))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def save_action(action, user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''INSERT INTO actions (user_id, period, action, stock_name, amount, price)
+                      VALUES (%s, %s, %s, %s, %s, %s)''',
+                   (user_id, action['Period'], action['Action'], action['Stock'], action['Amount'], action['Price']))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def save_result(total_value, user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''INSERT INTO results (user_id, total_value)
+                      VALUES (%s, %s)
+                      ON CONFLICT (user_id) DO UPDATE
+                      SET total_value = EXCLUDED.total_value''',
+                   (user_id, total_value))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def get_user_count():
+    conn = get_connection()
+    with conn.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM survey")
+        count = cur.fetchone()[0]
+    conn.close()
+    return count
