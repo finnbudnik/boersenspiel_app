@@ -1,12 +1,13 @@
 import psycopg2
 import pandas as pd
+import streamlit as st
 
 # 💡 HIER deine Zugangsdaten eintragen
-DB_HOST = "localhost"
-DB_PORT = 5432
-DB_NAME = "trading_simulation"
-DB_USER = "finnbudnik"
-DB_PASSWORD = "Finn"
+DB_HOST = st.secrets["db_host"]
+DB_PORT = st.secrets["db_port"]
+DB_NAME = st.secrets["db_name"]
+DB_USER = st.secrets["db_user"]
+DB_PASSWORD = st.secrets["db_pass"]
 
 def get_connection():
     return psycopg2.connect(
