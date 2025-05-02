@@ -4,8 +4,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import string
 import requests
+from supabase import create_client, Client
+from dotenv import load_dotenv
+import os 
 from db_utils import init_db, save_action, save_result, save_survey
 from db_utils import get_all_surveys, get_all_actions, get_all_results
+
+load_dotenv()
+
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_KEY")
+
+supabase: Client = create_client(url, key)
 
 init_db()
 
