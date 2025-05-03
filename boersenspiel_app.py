@@ -259,8 +259,8 @@ def game_page():
 
         # Jetzt wird das Kapital zum Gesamtwert addiert:
         total_with_capital = total_market_value + player.capital
-        total_gain = round(total_with_capital - total_invested, 2)
-        total_change = round(((total_with_capital / total_invested - 1) * 100), 2) if total_invested else 0.0
+        total_gain = round(total_market_value - total_invested, 2)
+        total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
 
         # Zeile: Capital
         portfolio_df.loc[len(portfolio_df.index)] = ["Capital", "", "", "", round(player.capital, 2), "", ""]
@@ -310,10 +310,6 @@ def game_page():
         ax.set_xticks(periods)
         ax.grid(True)
         st.pyplot(fig)
-
-
-
-
 
 
     if st.session_state.period == 15:
