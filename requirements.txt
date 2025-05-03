@@ -4,4 +4,4 @@ matplotlib
 requests
 supabase-py
 python-dotenv
-psycopg2
+psycopg2-binary
