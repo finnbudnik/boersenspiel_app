@@ -20,9 +20,6 @@ def get_ip():
 def generate_user_id(length=6):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
-# --- Session Setup ---
-if "user_id" not in st.session_state:
-    st.session_state.user_id = generate_user_id()
 
 # --- Data Classes ---
 class Stock:
@@ -134,13 +131,13 @@ def landing_page():
     )
 
     if st.button("Start Simulation", key="start_button_landing"):
-        user_id = st.session_state.user_id
+        user_id = generate_user_id()
         is_alt_group = (user_count + 1) % 2 == 0  # Jeder zweite Spieler ist in der alternativen Gruppe
 
         random.seed(42)
 
         # Save user info to session state
-        
+        st.session_state.user_id = user_id
         st.session_state.age = age
         st.session_state.experience = experience
         st.session_state.is_playing = True
