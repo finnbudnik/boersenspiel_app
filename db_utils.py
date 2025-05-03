@@ -3,15 +3,12 @@ import pandas as pd
 import streamlit as st
 import os
 
-# Supabase-Verbindungsdaten
+# Verbindung zur Datenbank
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT", 5432)
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
-
-
-
 
 def get_connection():
     return psycopg2.connect(
@@ -19,7 +16,8 @@ def get_connection():
         port=DB_PORT,
         dbname=DB_NAME,
         user=DB_USER,
-        password=DB_PASSWORD
+        password=DB_PASSWORD,
+        sslmode="require"
     )
 
 def get_all_surveys():
@@ -110,3 +108,22 @@ def get_user_count():
         count = cur.fetchone()[0]
     conn.close()
     return count
+
+def save_input(user_id, text):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_input (
+            user_id TEXT,
+            input_text TEXT,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    cursor.execute('''
+        INSERT INTO user_input (user_id, input_text)
+        VALUES (%s, %s)
+    ''', (user_id, text))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
