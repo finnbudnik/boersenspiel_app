@@ -42,14 +42,12 @@ def init_db():
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute('DROP TABLE IF EXISTS survey')
-
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS survey (
                         user_id TEXT PRIMARY KEY,
                         age INTEGER,
                         experience TEXT,
-                        ip_address TEXT
+                        ip_address TEXT,
                         user_group TEXT)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS actions (
@@ -77,7 +75,7 @@ def save_survey(user_id, age, experience, ip_address=None, user_group=None):
                       ON CONFLICT (user_id) DO UPDATE
                       SET age = EXCLUDED.age,
                           experience = EXCLUDED.experience,
-                          ip_address = EXCLUDED.ip_address
+                          ip_address = EXCLUDED.ip_address,
                             user_group = EXCLUDED.user_group''',
                    (user_id, age, experience, ip_address, user_group))
     conn.commit()
