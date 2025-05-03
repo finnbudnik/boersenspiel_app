@@ -1,6 +1,10 @@
-streamlit>=1.30.0
-pandas>=1.5.0
-matplotlib>=3.5.0
-requests>=2.25.0
-psycopg2-binary>=2.9.0
-st-supabase-connections==2.49.4
+streamlit
+random
+pandas
+matplotlib.pyplot
+string
+requests
+supabase
+dotenv
+os
+psycopg2
