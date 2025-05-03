@@ -256,16 +256,20 @@ def game_page():
             data["amount"] * next((s for s in st.session_state.stocks if s.name == name), None).price
             for name, data in player.portfolio.items()
         )
-        total_gain = round(total_market_value - total_invested, 2)
-        total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
+
+        # Jetzt wird das Kapital zum Gesamtwert addiert:
+        total_with_capital = total_market_value + player.capital
+        total_gain = round(total_with_capital - total_invested, 2)
+        total_change = round(((total_with_capital / total_invested - 1) * 100), 2) if total_invested else 0.0
 
         # Zeile: Capital
         portfolio_df.loc[len(portfolio_df.index)] = ["Capital", "", "", "", round(player.capital, 2), "", ""]
 
-        # Zeile: Total
+        # Zeile: Total (inkl. Kapital)
         portfolio_df.loc[len(portfolio_df.index)] = [
-            "Total", "", "", "", round(total_market_value, 2), f"{total_change}%", total_gain
+            "Total", "", "", "", round(total_with_capital, 2), f"{total_change}%", total_gain
         ]
+
 
         def highlight_changes(val):
             try:
