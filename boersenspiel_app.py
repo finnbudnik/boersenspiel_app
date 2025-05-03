@@ -31,7 +31,7 @@ class Stock:
     def update_price(self, period):
         # Manuelle Festlegung des Kursverlaufs für jede Aktie und Periode
         price_schedule = {
-            "Vireon Capital": [50, 51.5, 49.44, 47.96, 50.36, 49.86, 50.36, 49.86, 50.86, 52.89, 53.42, 56.62, 58.31, 58.89, 55.95],
+            "Vireon Capital": [50, 51, 49, 47, 50, 49, 50, 49, 50, 52, 53, 56, 58, 58, 55],
             "Aetheron Industries": [30, 33, 32, 31, 33, 35, 37, 38, 40, 42, 43, 44, 45, 47, 50],
             "Nexora Holdings": [45, 47, 46, 45, 48, 50, 53, 54, 55, 57, 59, 60, 61, 63, 65],
             "Lunaris Ventures": [50, 52, 51, 53, 50, 55, 58, 57, 60, 63, 64, 65, 67, 69, 70],
