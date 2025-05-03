@@ -26,7 +26,7 @@ class Stock:
     def __init__(self, name, price, price_history=None):
         self.name = name
         self.price = price
-        self.price_history = price_history if price_history else [price]
+        self.price_history = []
 
     def update_price(self, period):
         # Manuelle Festlegung des Kursverlaufs für jede Aktie und Periode
@@ -106,8 +106,9 @@ class Player:
 def initialize_stocks():
     names = ["Vireon Capital", "Aetheron Industries", "Nexora Holdings", "Lunaris Ventures", "Trivantech Group"]
     random.shuffle(names)
-    st.session_state.names = names
-    return [Stock(name, random.uniform(20, 100)) for name in names]
+    
+    # Lege Stock-Objekte mit leerer history an
+    return [Stock(name, 0) for name in names]
 
 
 # --- Pages ---
@@ -298,8 +299,9 @@ def game_page():
     selected_stock_obj = next((s for s in st.session_state.stocks if s.name == selected_stock_chart), None)
     if selected_stock_obj:
         # Nur tatsächliche Perioden anzeigen (ohne Startwert)
-        periods = list(range(1, len(selected_stock_obj.price_history)))  # Start bei 1, aber bis len-1
-        prices = selected_stock_obj.price_history[1:]  # Ignoriere Startpreis bei Index 0
+        periods = list(range(1, len(selected_stock_obj.price_history) + 1))
+        prices = selected_stock_obj.price_history
+
 
         
         fig, ax = plt.subplots(figsize=(6, 3))
