@@ -1,10 +1,7 @@
 streamlit
-random
 pandas
-matplotlib.pyplot
-string
+matplotlib
 requests
-supabase
-dotenv
-os
+supabase-py
+python-dotenv
 psycopg2
