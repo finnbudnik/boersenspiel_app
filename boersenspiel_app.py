@@ -115,7 +115,6 @@ def landing_page():
     from db_utils import get_user_count  # Neue Hilfsfunktion (s. unten)
     user_count = get_user_count()
 
-
     st.title("📊 Welcome to the Stock Market Simulation Game")
 
     st.write(
@@ -143,41 +142,36 @@ def landing_page():
         st.session_state.experience = experience
         st.session_state.is_playing = True
         st.session_state.period = 6
-        st.session_state.stocks = initialize_stocks()
-        player = Player(capital=1000 if not is_alt_group else 500)
-
-        # Wenn es ein alternativer Spieler ist, gib ihm Lunaris-Aktien im Wert von 500€
-        stocks = initialize_stocks()
-
-        if is_alt_group:
-            # Suche nach Lunaris Ventures in den bestehenden Stocks
-            lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
-
-            # Wenn nicht vorhanden, füge sie manuell hinzu
-            if lunaris is None:
-                lunaris = Stock("Lunaris Ventures", price=50.0)
-                stocks.append(lunaris)
-
-            amount = int(500 / lunaris.price)
-            player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": lunaris.price}
-
-        st.session_state.player = player
-        st.session_state.stocks = stocks
         st.session_state.logs = []
         st.session_state.survey_completed = True
         st.session_state.page = "Simulation"  # Direct redirect
 
+        # Nur EINMAL stocks initialisieren
+        stocks = initialize_stocks()
+        st.session_state.stocks = stocks
+
+        # Spieler initialisieren
+        player = Player(capital=1000 if not is_alt_group else 500)
+
+        # Alternative Gruppe bekommt Lunaris-Aktien
+        if is_alt_group:
+            lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
+            assert lunaris is not None, "Lunaris Ventures wurde nicht in stocks gefunden!"
+            amount = int(500 / lunaris.price)
+            player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": lunaris.price}
+
+        st.session_state.player = player
+
         ip = get_ip()
         save_survey(user_id, age, experience, ip_address=ip)
 
-
-        for period in range(1, 6):  # Periode 1 bis 5
+        # Initiale Kursverläufe für Perioden 1–5 berechnen
+        for period in range(1, 6):
             for stock in st.session_state.stocks:
                 stock.update_price(period)
             st.session_state.player.track_performance(st.session_state.stocks)
 
-
-        st.rerun()  # Reload to navigate immediately
+        st.rerun()
 
 
 def game_page():
