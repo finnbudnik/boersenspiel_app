@@ -46,7 +46,8 @@ def init_db():
                         user_id TEXT PRIMARY KEY,
                         age INTEGER,
                         experience TEXT,
-                        ip_address TEXT)''')
+                        ip_address TEXT
+                        user_group TEXT)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS actions (
                         id SERIAL PRIMARY KEY,
@@ -65,17 +66,17 @@ def init_db():
     cursor.close()
     conn.close()
 
-def save_survey(user_id, age, experience, ip_address=None, group=None):
+def save_survey(user_id, age, experience, ip_address=None, user_group=None):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('''INSERT INTO survey (user_id, age, experience, ip_address, group)
+    cursor.execute('''INSERT INTO survey (user_id, age, experience, ip_address, user_group)
                       VALUES (%s, %s, %s, %s, %s)
                       ON CONFLICT (user_id) DO UPDATE
                       SET age = EXCLUDED.age,
                           experience = EXCLUDED.experience,
                           ip_address = EXCLUDED.ip_address
-                            group = EXCLUDED.group''',
-                   (user_id, age, experience, ip_address, group))
+                            user_group = EXCLUDED.user_group''',
+                   (user_id, age, experience, ip_address, user_group))
     conn.commit()
     cursor.close()
     conn.close()

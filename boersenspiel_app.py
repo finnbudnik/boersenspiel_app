@@ -164,7 +164,7 @@ def landing_page():
         st.session_state.player = player
 
         ip = get_ip()
-        save_survey(user_id, age, experience, ip_address=ip, group="treatment" if is_alt_group else "control")
+        save_survey(user_id, age, experience, ip_address=ip, user_group="treatment" if is_alt_group else "control")
 
         # Initiale Kursverläufe für Perioden 1–5 berechnen
         for period in range(1, 6):
