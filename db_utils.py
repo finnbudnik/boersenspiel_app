@@ -42,6 +42,9 @@ def init_db():
     conn = get_connection()
     cursor = conn.cursor()
 
+    cursor.execute('DROP TABLE IF EXISTS survey')
+
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS survey (
                         user_id TEXT PRIMARY KEY,
                         age INTEGER,
