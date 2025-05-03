@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import string
 import requests
-from supabase import create_client, Client
 from dotenv import load_dotenv
 import os 
 from db_utils import init_db, save_action, save_result, save_survey
