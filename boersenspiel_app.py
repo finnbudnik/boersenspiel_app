@@ -157,7 +157,7 @@ def landing_page():
         if is_alt_group:
             lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
             assert lunaris is not None, "Lunaris Ventures wurde nicht in stocks gefunden!"
-            amount = int(500 / lunaris.price)
+            amount = 10
             player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": lunaris.price}
 
         st.session_state.player = player
