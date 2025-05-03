@@ -141,17 +141,10 @@ def landing_page():
         st.session_state.age = age
         st.session_state.experience = experience
         st.session_state.is_playing = True
+        st.session_state.period = 6
         st.session_state.logs = []
         st.session_state.survey_completed = True
         st.session_state.page = "Simulation"  # Direct redirect
-
-        # Periode 6 initialisieren
-        period = 6
-        for stock in st.session_state.stocks:
-            stock.update_price(period)
-        st.session_state.player.track_performance(st.session_state.stocks)
-        st.session_state.period = period
-
 
         # Nur EINMAL stocks initialisieren
         stocks = initialize_stocks()
