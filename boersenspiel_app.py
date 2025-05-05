@@ -35,10 +35,12 @@ class Stock:
             return self.price
         return self.price
 
-    def price_change(self):
-        if len(self.price_history) < 2:
+    def price_change(self, current_period):
+        if current_period <= 1 or current_period > len(self.price_history):
             return 0.0
-        return round(((self.price - self.price_history[-2]) / self.price_history[-2]) * 100, 2)
+        prev_price = self.price_history[current_period - 2]
+        current_price = self.price_history[current_period - 1]
+        return round(((current_price - prev_price) / prev_price) * 100, 2)
 
 class Player:
     def __init__(self, capital):
@@ -193,7 +195,7 @@ def game_page():
 
     st.markdown("### 🏦 Stock Prices")
     for stock in st.session_state.stocks:
-        change = stock.price_change()
+        change = stock.price_change(st.session_state.period)
         color = "green" if change >= 0 else "red"
         st.markdown(
             f"- **{stock.name}**: {stock.price:.2f}€ "
