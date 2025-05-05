@@ -20,6 +20,13 @@ def get_connection():
         sslmode="require"
     )
 
+def get_stock_prices():
+    conn = get_connection()
+    df = pd.read_sql_query("SELECT * FROM stock_prices ORDER BY stock_name, period", conn)
+    conn.close()
+    return df
+
+
 def get_all_surveys():
     conn = get_connection()
     df = pd.read_sql_query("SELECT * FROM survey", conn)

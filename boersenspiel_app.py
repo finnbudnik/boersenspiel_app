@@ -7,7 +7,7 @@ import requests
 from dotenv import load_dotenv
 import os 
 from db_utils import init_db, save_action, save_result, save_survey
-from db_utils import get_all_surveys, get_all_actions, get_all_results
+from db_utils import get_all_surveys, get_all_actions, get_all_results, get_stock_prices
 
 init_db()
 
@@ -17,37 +17,28 @@ def get_ip():
     except:
         return "unavailable"
 
+
 def generate_user_id(length=6):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 
 # --- Data Classes ---
 class Stock:
-    def __init__(self, name, price, price_history=None):
+    def __init__(self, name, price_history):
         self.name = name
-        self.price = price
-        self.price_history = []
+        self.price_history = price_history
+        self.price = price_history[-1] if price_history else 0
 
     def update_price(self, period):
-        # Manuelle Festlegung des Kursverlaufs für jede Aktie und Periode
-        price_schedule = {
-            "Vireon Capital": [50, 51, 49, 47, 50, 49, 50, 49, 50, 52, 53, 56, 58, 58, 55],
-            "Aetheron Industries": [30, 33, 32, 31, 33, 35, 37, 38, 40, 42, 43, 44, 45, 47, 50],
-            "Nexora Holdings": [45, 47, 46, 45, 48, 50, 53, 54, 55, 57, 59, 60, 61, 63, 65],
-            "Lunaris Ventures": [50, 52, 51, 53, 50, 55, 58, 57, 60, 63, 64, 65, 67, 69, 70],
-            "Trivantech Group": [80, 82, 84, 83, 86, 88, 90, 92, 93, 95, 97, 98, 100, 102, 105]
-        }
-        
-        # Setze den Preis basierend auf dem festgelegten Kursverlauf
-        if self.name in price_schedule:
-            self.price = price_schedule[self.name][period - 1]  # Periodenbeginn bei 1, daher -1
-            self.price_history.append(self.price)
+        if period <= len(self.price_history):
+            self.price = self.price_history[period - 1]
+            return self.price
+        return self.price
 
     def price_change(self):
         if len(self.price_history) < 2:
             return 0.0
-        return round(((self.price_history[-1] - self.price_history[-2]) / self.price_history[-2]) * 100, 2)
-
+        return round(((self.price - self.price_history[-2]) / self.price_history[-2]) * 100, 2)
 
 class Player:
     def __init__(self, capital):
@@ -104,12 +95,12 @@ class Player:
 
 # --- Initialization ---
 def initialize_stocks():
-    names = ["Vireon Capital", "Aetheron Industries", "Nexora Holdings", "Lunaris Ventures", "Trivantech Group"]
-    random.shuffle(names)
-    
-    # Lege Stock-Objekte mit leerer history an
-    return [Stock(name, 0) for name in names]
-
+    df = get_stock_prices()
+    stocks = []
+    for stock_name in df["stock_name"].unique():
+        stock_prices = df[df["stock_name"] == stock_name].sort_values("period")["price"].tolist()
+        stocks.append(Stock(stock_name, stock_prices))
+    return stocks
 
 # --- Pages ---
 def landing_page():
