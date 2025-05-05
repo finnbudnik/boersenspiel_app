@@ -155,6 +155,7 @@ def landing_page():
 
         # Spieler initialisieren
         player = Player(capital=1000 if not is_alt_group else 500)
+        st.session_state.player = player
 
         # Alternative Gruppe bekommt Lunaris-Aktien
         if is_alt_group:
@@ -164,7 +165,6 @@ def landing_page():
             buy_price = lunaris.price_history[0]  # Preis in Periode 1
             player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": buy_price}
 
-        st.session_state.player = player
 
         ip = get_ip()
         save_survey(user_id, age, experience, ip_address=ip, user_group="treatment" if is_alt_group else "control")
