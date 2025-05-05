@@ -289,18 +289,18 @@ def game_page():
 
     selected_stock_obj = next((s for s in st.session_state.stocks if s.name == selected_stock_chart), None)
     if selected_stock_obj:
-        # Nur tatsächliche Perioden anzeigen (ohne Startwert)
-        periods = list(range(1, len(selected_stock_obj.price_history) + 1))
-        prices = selected_stock_obj.price_history
+        current_period = st.session_state.period
 
+        # Zeige nur vergangene Perioden (bis einschließlich current_period - 1)
+        past_periods = list(range(1, current_period))
+        prices = selected_stock_obj.price_history[:current_period - 1]
 
-        
         fig, ax = plt.subplots(figsize=(6, 3))
-        ax.plot(periods, prices, marker="o", color="blue")
+        ax.plot(past_periods, prices, marker="o", color="blue")
         ax.set_title(f"{selected_stock_obj.name} Price Over Time")
         ax.set_xlabel("Period")
         ax.set_ylabel("Price (€)")
-        ax.set_xticks(periods)
+        ax.set_xticks(past_periods)
         ax.grid(True)
         st.pyplot(fig)
 
