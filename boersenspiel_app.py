@@ -213,6 +213,9 @@ def game_page():
             unsafe_allow_html=True
         )
 
+    # Ensure all stock prices are updated to the current period
+    for stock in st.session_state.stocks:
+        stock.update_price(st.session_state.period - 1)
 
     st.markdown(f"**💰 Capital:** {player.capital:.2f}€")
 
