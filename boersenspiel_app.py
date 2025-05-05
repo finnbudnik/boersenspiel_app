@@ -35,12 +35,21 @@ class Stock:
             return self.price
         return self.price
 
-    def price_change(self, current_period):
-        if current_period <= 1 or current_period > len(self.price_history):
+    def price_change(self, current_period=None):
+        if current_period is None or current_period <= 1:
             return 0.0
-        prev_price = self.price_history[current_period - 2]
-        current_price = self.price_history[current_period - 1]
-        return round(((current_price - prev_price) / prev_price) * 100, 2)
+        if current_period > len(self.price_history):
+            current_period = len(self.price_history)
+        
+        try:
+            current_price = self.price_history[current_period - 1]
+            previous_price = self.price_history[current_period - 2]
+            if previous_price == 0:
+                return 0.0
+            return round(((current_price - previous_price) / previous_price) * 100, 2)
+        except IndexError:
+            return 0.0
+
 
 class Player:
     def __init__(self, capital):
