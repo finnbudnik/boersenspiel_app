@@ -221,7 +221,11 @@ def game_page():
     # Vorperiode bestimmen
     previous_period = max(1, st.session_state.period - 1)
 
-    for stock in st.session_state.stocks:
+    # Kopiere die Liste und mische sie zufällig
+    shuffled_stocks = st.session_state.stocks.copy()
+    random.shuffle(shuffled_stocks)
+
+    for stock in shuffled_stocks:
         try:
             prev_price = stock.price_history[previous_period - 1]
             change = stock.price_change(previous_period)
