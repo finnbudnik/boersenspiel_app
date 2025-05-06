@@ -153,6 +153,11 @@ def landing_page():
         stocks = initialize_stocks()
         st.session_state.stocks = stocks
 
+        # Zufällige Aktienreihenfolge pro Spieler generieren und speichern
+        stock_names = [stock.name for stock in stocks]
+        random.shuffle(stock_names)
+        st.session_state.stock_display_order = stock_names
+
         # Spieler initialisieren
         player = Player(capital=1000 if not is_alt_group else 500)
         st.session_state.player = player
@@ -221,11 +226,13 @@ def game_page():
     # Vorperiode bestimmen
     previous_period = max(1, st.session_state.period - 1)
 
-    # Kopiere die Liste und mische sie zufällig
-    shuffled_stocks = st.session_state.stocks.copy()
-    random.shuffle(shuffled_stocks)
+    # Reihenfolge anhand gespeicherter Liste sortieren
+    ordered_stocks = sorted(
+        st.session_state.stocks,
+        key=lambda s: st.session_state.stock_display_order.index(s.name)
+    )
 
-    for stock in shuffled_stocks:
+    for stock in ordered_stocks:
         try:
             prev_price = stock.price_history[previous_period - 1]
             change = stock.price_change(previous_period)
@@ -238,6 +245,7 @@ def game_page():
             f"(<span style='color:{color}'>{change:+.2f}%</span>)",
             unsafe_allow_html=True
         )
+
 
 
     # Ensure all stock prices are updated to the current period
