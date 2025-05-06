@@ -180,14 +180,14 @@ def landing_page():
 
 def game_page():
 
+    if not st.session_state.get('survey_completed', False):
+        st.warning("Please complete the survey first.")
+        return
+    
     # Robust initialisieren: sicherstellen, dass Preise zu aktuellem Periodenstand passen
     current_period = st.session_state.period
     for stock in st.session_state.stocks:
         stock.update_price(current_period - 1)
-
-    if not st.session_state.get('survey_completed', False):
-        st.warning("Please complete the survey first.")
-        return
     
     # ❗ Sicherstellen, dass bei Reload alles korrekt initialisiert ist
     if 'stocks' in st.session_state and 'period' in st.session_state:
