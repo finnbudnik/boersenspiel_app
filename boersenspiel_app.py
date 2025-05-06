@@ -144,7 +144,7 @@ def landing_page():
         st.session_state.age = age
         st.session_state.experience = experience
         st.session_state.is_playing = True
-        st.session_state.period = 1
+        st.session_state.period = 6
         st.session_state.logs = []
         st.session_state.survey_completed = True
         st.session_state.page = "Simulation"  # Direct redirect
@@ -169,11 +169,11 @@ def landing_page():
         ip = get_ip()
         save_survey(user_id, age, experience, ip_address=ip, user_group="treatment" if is_alt_group else "control")
 
-        # Initiale Kursverläufe & Performance für Periode 1
-        for stock in st.session_state.stocks:
-            stock.update_price(0)  # Preis in Periode 1 = Index 0
-        st.session_state.player.track_performance(st.session_state.stocks)
-
+        # Initiale Kursverläufe für Perioden 1–5 berechnen und tracken
+        for period in range(1, 6):
+            for stock in stocks:
+                stock.update_price(period)
+            player.track_performance(stocks)
 
         st.rerun()
 
@@ -188,6 +188,13 @@ def game_page():
     if not st.session_state.get('survey_completed', False):
         st.warning("Please complete the survey first.")
         return
+    
+    # ❗ Sicherstellen, dass bei Reload alles korrekt initialisiert ist
+    if 'stocks' in st.session_state and 'period' in st.session_state:
+        for stock in st.session_state.stocks:
+            # Preise korrekt setzen auf Periode (period - 1), da aktuelle Periode erst ansteht
+            stock.update_price(st.session_state.period)
+
 
     st.title("📈 Stock Market Simulation Game")
     player = st.session_state.player
