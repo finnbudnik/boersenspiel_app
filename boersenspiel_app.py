@@ -162,7 +162,7 @@ def landing_page():
             lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
             assert lunaris is not None, "Lunaris Ventures wurde nicht in stocks gefunden!"
             amount = 10
-            buy_price = lunaris.price_history[0]  # Preis in Periode 1
+            buy_price = round(lunaris.price_history[0], 2)  # Preis in Periode 1
             player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": buy_price}
 
 
