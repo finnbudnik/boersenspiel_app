@@ -257,7 +257,7 @@ def game_page():
             data["amount"],
             f"{round(data['buy_price'], 2):.2f}€",
             f"{round(stock_obj.price, 2):.2f}€",
-            round(value, 2),  # Value darf ruhig Zahl bleiben für Summe
+            f"{round(value, 2):.2f}€",  # Value darf ruhig Zahl bleiben für Summe
             f"{round(change, 2)}%",
             f"{round(gain_loss, 2):.2f}€"
         ])
