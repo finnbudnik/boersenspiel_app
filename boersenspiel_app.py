@@ -218,7 +218,7 @@ def game_page():
 
     st.markdown("### 🏦 Stock Prices")
     for stock in st.session_state.stocks:
-        change = stock.price_change(st.session_state.period - 1)
+        change = stock.price_change(st.session_state.period)
         color = "green" if change >= 0 else "red"
         st.markdown(
             f"- **{stock.name}**: {stock.price:.2f}€ "
@@ -227,8 +227,8 @@ def game_page():
         )
 
     # Ensure all stock prices are updated to the current period
-    for stock in st.session_state.stocks:
-        stock.update_price(st.session_state.period - 1)
+    #for stock in st.session_state.stocks:
+     #   stock.update_price(st.session_state.period - 1)
 
     st.markdown(f"**💰 Capital:** {player.capital:.2f}€")
 
