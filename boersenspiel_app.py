@@ -255,12 +255,13 @@ def game_page():
         portfolio_data.append([
             stock_name,
             data["amount"],
-            round(data["buy_price"], 2),
-            round(stock_obj.price, 2),
-            round(value, 2),
+            f"{round(data['buy_price'], 2):.2f}€",
+            f"{round(stock_obj.price, 2):.2f}€",
+            round(value, 2),  # Value darf ruhig Zahl bleiben für Summe
             f"{round(change, 2)}%",
-            round(gain_loss)
+            f"{round(gain_loss, 2):.2f}€"
         ])
+
 
 
     portfolio_df = pd.DataFrame(
@@ -283,12 +284,14 @@ def game_page():
         total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
 
         # Zeile: Capital
-        portfolio_df.loc[len(portfolio_df.index)] = ["Capital", "", "", "", round(player.capital, 2), "", ""]
+        portfolio_df.loc[len(portfolio_df.index)] = ["Capital", "", "", "", f"{round(player.capital, 2):.2f}€", "", ""]
+
 
         # Zeile: Total (inkl. Kapital)
         portfolio_df.loc[len(portfolio_df.index)] = [
-            "Total", "", "", "", round(total_with_capital, 2), f"{total_change}%", total_gain
+            "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
         ]
+
 
 
         def highlight_changes(val):
