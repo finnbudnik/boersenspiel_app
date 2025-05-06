@@ -315,6 +315,18 @@ def game_page():
             except:
                 return ""
 
+        # Funktion für das Fettsetzen der Total-Zeile
+        def highlight_total_row(s):
+            # Wenn die erste Spalte "Total" enthält, machen wir diese Zeile fett
+            if s["Stock"] == "Total":
+                return ["font-weight: bold"] * len(s)
+            else:
+                return [""] * len(s)
+
+        # Stil anwenden: Total-Zeile fett und farbliche Hervorhebung der Änderungen
+        styled_df = portfolio_df.style.apply(highlight_total_row, axis=1)
+        styled_df = styled_df.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
+
         styled_df = portfolio_df.style.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
         st.dataframe(styled_df, use_container_width=True)
 
