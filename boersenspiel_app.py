@@ -216,15 +216,27 @@ def game_page():
             st.success("🎉 Game Over!")
             st.markdown(f"**📈 Total Value:** {player.total_value(st.session_state.stocks):.2f}€")
 
-    st.markdown("### 🏦 Stock Prices")
+    st.markdown("### 🏦 Stock Prices (Previous Period)")
+    previous_period = st.session_state.period - 1
+
     for stock in st.session_state.stocks:
+        if previous_period > 0 and previous_period <= len(stock.price_history):
+            previous_price = stock.price_history[previous_period - 1]
+        else:
+            previous_price = None
+
         change = stock.price_change(st.session_state.period)
         color = "green" if change >= 0 else "red"
-        st.markdown(
-            f"- **{stock.name}**: {stock.price:.2f}€ "
-            f"(<span style='color:{color}'>{change:+.2f}%</span>)",
-            unsafe_allow_html=True
-        )
+
+        if previous_price is not None:
+            st.markdown(
+                f"- **{stock.name}**: {previous_price:.2f}€ "
+                f"(<span style='color:{color}'>{change:+.2f}%</span>)",
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(f"- **{stock.name}**: No data available for previous period")
+
 
     # Ensure all stock prices are updated to the current period
     for stock in st.session_state.stocks:
