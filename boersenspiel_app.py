@@ -217,18 +217,28 @@ def game_page():
             st.markdown(f"**📈 Total Value:** {player.total_value(st.session_state.stocks):.2f}€")
 
     st.markdown("### 🏦 Stock Prices")
+
+    # Vorperiode bestimmen
+    previous_period = max(1, st.session_state.period - 1)
+
     for stock in st.session_state.stocks:
-        change = stock.price_change(st.session_state.period)
+        try:
+            prev_price = stock.price_history[previous_period - 1]
+            change = stock.price_change(previous_period)
+        except IndexError:
+            prev_price = 0.0
+            change = 0.0
         color = "green" if change >= 0 else "red"
         st.markdown(
-            f"- **{stock.name}**: {stock.price:.2f}€ "
+            f"- **{stock.name}**: {prev_price:.2f}€ "
             f"(<span style='color:{color}'>{change:+.2f}%</span>)",
             unsafe_allow_html=True
         )
 
+
     # Ensure all stock prices are updated to the current period
-    #for stock in st.session_state.stocks:
-     #   stock.update_price(st.session_state.period - 1)
+    for stock in st.session_state.stocks:
+        stock.update_price(st.session_state.period - 1)
 
     st.markdown(f"**💰 Capital:** {player.capital:.2f}€")
 
