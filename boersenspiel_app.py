@@ -122,17 +122,23 @@ def landing_page():
 
     st.markdown("**Welcome!**")
 
-    st.markdown("In this simulation, you'll manage a portfolio of five fictional stocks over 15 periods, starting from" \
-    "period 6. At the beginning of each period, you may execute an unlimited number of trades - completely free of transaction" \
-    "fees and taxes. You'll be randomly provided with a combination of cash and/or gifte stocks, totalling €1000 in value.")
+    st.markdown("In this simulation, you'll manage a portfolio of five fictional stocks over 15 periods, starting from " \
+    "period 6. At the beginning of each period, you may execute an unlimited number of trades - completely free of transaction " \
+    "fees and taxes. You'll be randomly provided with a combination of cash and/or gifted stocks, totalling 1000€ in value.")
 
-    st.write(
-        "In this simulation, you'll manage a portfolio of 5 fictional stocks over 15 periods. "
-        "Each period represents a market update where stock prices change. Your goal is to make smart "
-        "buy/sell decisions to maximize your total portfolio value."
-    )
+    st.markdown("Stock prices are updated each time you click the **\"Next Period\"** Button. Your objective is to make smart " \
+    "buy and sell decisions to maximize your total portfolio value by period 15, based on past price movements. Each of the " \
+    "five stocks has a distinct probability of increasing in value: 40%, 45%, 50%, 55%, or 60%. This means two stocks are more likely " \
+    "to rise, two are more likely to fall and one is neutral - but which is which remains unknown. In each period, prices can " \
+    "rise by up to 6%, or fall by up to 5%, resulting in overall market growth. ")
 
-    st.subheader("👤 Quick Survey")
+    st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the **\"Start Simulation\"** " \
+    "button, you agree to your data being retained for 90 days and used for research and analysis.")
+
+    st.markdown("Thank you for your participation - and enjoy the game! Please start by completing the survey and start the " \
+    "game by pressing the \"Start simulation\" button. then switch to the simulation via the navigation bar.")
+
+    st.subheader("Survey")
     age = st.slider("How old are you?", 18, 100, 18)
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
     study = st.radio("What is your field of study?", 
