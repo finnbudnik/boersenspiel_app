@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import string
 import requests
+import uuid
 from dotenv import load_dotenv
 import os 
 from db_utils import init_db, save_action, save_result, save_survey
@@ -17,9 +18,11 @@ def get_ip():
     except:
         return "unavailable"
 
+def generate_user_id(length=8):
+    return uuid.uuid4().hex[:length].upper()
 
-def generate_user_id(length=6):
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+#def generate_user_id(length=6):
+    #return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 
 # --- Data Classes ---
@@ -313,7 +316,7 @@ def game_page():
 
         # Zeile: Total (inkl. Kapital)
         portfolio_df.loc[len(portfolio_df.index)] = [
-            "**Total**", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
+            "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
         ]
 
 

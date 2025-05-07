@@ -3,6 +3,6 @@ streamlit
 pandas
 matplotlib
 requests
-#supabase-py
+uuid
 python-dotenv
 psycopg2-binary
