@@ -118,7 +118,13 @@ def landing_page():
     from db_utils import get_user_count  # Neue Hilfsfunktion (s. unten)
     user_count = get_user_count()
 
-    st.title("📊 Welcome to the Stock Market Simulation Game")
+    st.title("Stock Market Simulation Game")
+
+    st.markdown("**Welcome!**")
+
+    st.markdown("In this simulation, you'll manage a portfolio of five fictional stocks over 15 periods, starting from" \
+    "period 6. At the beginning of each period, you may execute an unlimited number of trades - completely free of transaction" \
+    "fees and taxes. You'll be randomly provided with a combination of cash and/or gifte stocks, totalling €1000 in value.")
 
     st.write(
         "In this simulation, you'll manage a portfolio of 5 fictional stocks over 15 periods. "
@@ -128,15 +134,11 @@ def landing_page():
 
     st.subheader("👤 Quick Survey")
     age = st.slider("How old are you?", 18, 100, 18)
-    experience = st.slider("On a scale 1 to 10 what is your experience with trading?", 1, 10, 5)
+    experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
     study = st.radio("What is your field of study?", 
                      ["Economics, Business Administration, Industrial Engineering or similar",
                      "Engineering, Data Science or similar", "Science", "Other"])
 
-    #experience = st.radio(
-     #   "What is your experience with trading?",
-      #  ["None", "Beginner", "Intermediate", "Expert"]
-    #)
 
     if st.button("Start Simulation", key="start_button_landing"):
         user_id = generate_user_id()
