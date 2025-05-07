@@ -128,10 +128,12 @@ def landing_page():
 
     st.subheader("👤 Quick Survey")
     age = st.slider("How old are you?", 10, 100, 25)
-    experience = st.radio(
-        "What is your experience with trading?",
-        ["None", "Beginner", "Intermediate", "Expert"]
-    )
+    experience = st.slider("On a scale 1 to 10 what is your experience with trading", 1, 10, 1)
+
+    #experience = st.radio(
+     #   "What is your experience with trading?",
+      #  ["None", "Beginner", "Intermediate", "Expert"]
+    #)
 
     if st.button("Start Simulation", key="start_button_landing"):
         user_id = generate_user_id()
@@ -314,19 +316,7 @@ def game_page():
                 return f'color: {color}'
             except:
                 return ""
-
-        # Funktion für das Fettsetzen der Total-Zeile
-        def highlight_total_row(s):
-            # Wenn die erste Spalte "Total" enthält, machen wir diese Zeile fett
-            if s["Stock"] == "Total":
-                return ["font-weight: bold"] * len(s)
-            else:
-                return [""] * len(s)
-
-        # Stil anwenden: Total-Zeile fett und farbliche Hervorhebung der Änderungen
-        styled_df = portfolio_df.style.apply(highlight_total_row, axis=1)
-        styled_df = styled_df.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
-
+        
         styled_df = portfolio_df.style.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
         st.dataframe(styled_df, use_container_width=True)
 
