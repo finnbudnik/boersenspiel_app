@@ -127,8 +127,11 @@ def landing_page():
     )
 
     st.subheader("👤 Quick Survey")
-    age = st.slider("How old are you?", 10, 100, 25)
-    experience = st.slider("On a scale 1 to 10 what is your experience with trading", 1, 10, 1)
+    age = st.slider("How old are you?", 18, 100, 18)
+    experience = st.slider("On a scale 1 to 10 what is your experience with trading?", 1, 10, 5)
+    study = st.radio("What is your field of study?", 
+                     ["Economics, Business Administration, Industrial Engineering or similar",
+                     "Engineering, Data Science or similar", "Science", "Other"])
 
     #experience = st.radio(
      #   "What is your experience with trading?",
@@ -145,6 +148,7 @@ def landing_page():
         st.session_state.user_id = user_id
         st.session_state.age = age
         st.session_state.experience = experience
+        st.session_state.study = study
         st.session_state.is_playing = True
         st.session_state.period = 6
         st.session_state.logs = []
@@ -169,7 +173,7 @@ def landing_page():
 
 
         ip = get_ip()
-        save_survey(user_id, age, experience, ip_address=ip, user_group="treatment" if is_alt_group else "control")
+        save_survey(user_id, age, experience, study, ip_address=ip, user_group="treatment" if is_alt_group else "control")
 
         # Initiale Kursverläufe für Perioden 1–5 berechnen und tracken
         for period in range(1, 6):
