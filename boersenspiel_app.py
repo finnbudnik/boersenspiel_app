@@ -21,9 +21,6 @@ def get_ip():
 def generate_user_id(length=8):
     return uuid.uuid4().hex[:length].upper()
 
-#def generate_user_id(length=6):
-    #return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-
 
 # --- Data Classes ---
 class Stock:
@@ -142,11 +139,11 @@ def landing_page():
     "game by pressing the \"Start simulation\" button. then switch to the simulation via the navigation bar.")
 
     st.subheader("Survey")
-    age = st.slider("How old are you?", 18, 100, 18)
+    age = st.slider("How old are you?", 18, 70, 30)
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
     study = st.radio("What is your field of study?", 
-                     ["Economics, Business Administration, Industrial Engineering or similar",
-                     "Engineering, Data Science or similar", "Science", "Other"])
+                     ["Economics related field (WiWi, VWL, BWL, WIng, WInf, ...)",
+                     "Engineering, (Computer) Science or similar", "Science", "Other"])
 
 
     if st.button("Start Simulation", key="start_button_landing"):
@@ -168,6 +165,10 @@ def landing_page():
 
         # Nur EINMAL stocks initialisieren
         stocks = initialize_stocks()
+        st.session_state.stocks = stocks
+
+        # Stocks zufällig mischen – individuell pro Nutzer
+        random.shuffle(stocks)
         st.session_state.stocks = stocks
 
         # Spieler initialisieren
