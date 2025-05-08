@@ -22,7 +22,7 @@ def generate_user_id(length=8):
     return uuid.uuid4().hex[:length].upper()
 
 
-# --- Data Classes ---
+# Data Classes
 class Stock:
     def __init__(self, name, price_history):
         self.name = name
@@ -104,7 +104,7 @@ class Player:
         return round(value, 2)
 
 
-# --- Initialization ---
+# Initialization
 def initialize_stocks():
     df = get_stock_prices()
     stocks = []
@@ -113,7 +113,7 @@ def initialize_stocks():
         stocks.append(Stock(stock_name, stock_prices))
     return stocks
 
-# --- Pages ---
+# Pages
 def landing_page():
     from db_utils import get_user_count  # Neue Hilfsfunktion (s. unten)
     user_count = get_user_count()
@@ -161,23 +161,20 @@ def landing_page():
         st.session_state.survey_completed = True
         st.session_state.page = "Simulation"  # Direct redirect
 
-        # Nur EINMAL stocks initialisieren
         stocks = initialize_stocks()
         st.session_state.stocks = stocks
 
-        # Stocks zufällig mischen – individuell pro Nutzer
         random.shuffle(stocks)
         st.session_state.stocks = stocks
 
-        # Spieler initialisieren
         player = Player(capital=1000 if not is_alt_group else 500)
         st.session_state.player = player
 
-        # Alternative Gruppe bekommt Lunaris-Aktien
+        # Treatment-Group
         if is_alt_group:
             lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
             assert lunaris is not None, "Lunaris Ventures wurde nicht in stocks gefunden!"
-            amount = 10
+            amount = 10.30715316
             buy_price = round(lunaris.price_history[0], 2)  # Preis in Periode 1
             player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": buy_price}
 
@@ -185,7 +182,6 @@ def landing_page():
         ip = get_ip()
         save_survey(user_id, age, experience, study, ip_address=ip, user_group="treatment" if is_alt_group else "control")
 
-        # Initiale Kursverläufe für Perioden 1–5 berechnen und tracken
         for period in range(1, 6):
             for stock in stocks:
                 stock.update_price(period)
@@ -205,10 +201,9 @@ def game_page():
     for stock in st.session_state.stocks:
         stock.update_price(current_period - 1)
     
-    # ❗ Sicherstellen, dass bei Reload alles korrekt initialisiert ist
+    # Reload
     if 'stocks' in st.session_state and 'period' in st.session_state:
         for stock in st.session_state.stocks:
-            # Preise korrekt setzen auf Periode (period - 1), da aktuelle Periode erst ansteht
             stock.update_price(st.session_state.period)
 
 
@@ -288,8 +283,6 @@ def game_page():
             f"{round(gain_loss, 2):.2f}€"
         ])
 
-
-
     portfolio_df = pd.DataFrame(
         portfolio_data,
         columns=["Stock", "Amount", "Buy Price", "Current Price", "Value (€)", "Change", "Gain/Loss (€)"]
@@ -304,16 +297,15 @@ def game_page():
             for name, data in player.portfolio.items()
         )
 
-        # Jetzt wird das Kapital zum Gesamtwert addiert:
         total_with_capital = total_market_value + player.capital
         total_gain = round(total_market_value - total_invested, 2)
         total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
 
-        # Zeile: Capital
+        # Capital
         portfolio_df.loc[len(portfolio_df.index)] = ["Capital", "", "", "", f"{round(player.capital, 2):.2f}€", "", ""]
 
 
-        # Zeile: Total (inkl. Kapital)
+        # Total
         portfolio_df.loc[len(portfolio_df.index)] = [
             "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
         ]
@@ -401,7 +393,7 @@ def admin_page():
         st.info("Please enter password to access admin dashboard.")
 
 
-# --- Run App ---
+# Run App
 st.sidebar.title("📋 Navigation")
 page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
 
