@@ -150,8 +150,6 @@ def landing_page():
         user_id = generate_user_id()
         is_alt_group = (user_count + 1) % 2 == 0  # Jeder zweite Spieler ist in der alternativen Gruppe
 
-        random.seed(42)
-
         # Save user info to session state
         st.session_state.user_id = user_id
         st.session_state.age = age
