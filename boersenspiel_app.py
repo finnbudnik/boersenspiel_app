@@ -79,7 +79,7 @@ class Player:
             save_action(self.actions[-1], st.session_state.user_id)
             return f"Bought {amount} of {stock.name} at {stock.price:.2f}€"
         else:
-            return "Not enough capital."
+            return "Not enough cash."
 
     def sell(self, stock: Stock, amount: int, period: int):
         if stock.name in self.portfolio and self.portfolio[stock.name]["amount"] >= amount:
@@ -228,6 +228,7 @@ def game_page():
                 st.rerun()
         else:
             st.success("🎉 Game Over!")
+            st.markdown("Thank you very much for participating!")
             st.markdown(f"**📈 Total Value:** {player.total_value(st.session_state.stocks):.2f}€")
 
     st.markdown("### 🏦 Stock Prices")
@@ -254,7 +255,7 @@ def game_page():
     for stock in st.session_state.stocks:
         stock.update_price(st.session_state.period - 1)
 
-    st.markdown(f"**💰 Capital:** {player.capital:.2f}€")
+    st.markdown(f"**💰 Cash:** {player.capital:.2f}€")
 
     st.markdown("### 💼 Trade Stocks")
     action = st.selectbox("Choose Action", ["Buy", "Sell"])
@@ -305,7 +306,7 @@ def game_page():
         total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
 
         # Capital
-        portfolio_df.loc[len(portfolio_df.index)] = ["Capital", "", "", "", f"{round(player.capital, 2):.2f}€", "", ""]
+        portfolio_df.loc[len(portfolio_df.index)] = ["Cash", "", "", "", f"{round(player.capital, 2):.2f}€", "", ""]
 
 
         # Total
