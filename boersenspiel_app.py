@@ -140,12 +140,11 @@ def landing_page():
 
     st.subheader("Survey")
     age = st.slider("How old are you?", 18, 70, 30)
-    experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
+    gender = st.radio("What is your gender?", ["Female", "Male", "Diverse", "Other"])
     study = st.radio("What is your field of study?", 
                      ["Economics related field (WiWi, VWL, BWL, WIng, WInf, ...)",
                      "Engineering, (Computer) Science or similar", "Science", "Other"])
-    gender = st.radio("What is your gender?", ["Female", "Male", "Diverse", "Other"])
-
+    experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
 
     if st.button("Start Simulation", key="start_button_landing"):
         user_id = generate_user_id()
