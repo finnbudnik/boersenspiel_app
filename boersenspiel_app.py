@@ -229,8 +229,9 @@ def game_page():
         else:
             st.success("🎉 Game Over!")
             st.markdown(f"**Your Total Value is** {player.total_value(st.session_state.stocks):.2f}€")
-            st.markdown("Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
-                        "for emitting your total gains of" {player.total_value(st.session_state.stocks):.2f} - 1000 "€ - thanks to the sponsor of this project **AlloiBrands**.")
+            st.markdown(f"Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
+                        "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
+            
     st.markdown("### 🏦 Stock Prices")
 
     # Vorperiode bestimmen
