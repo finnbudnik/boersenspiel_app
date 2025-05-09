@@ -55,6 +55,7 @@ def init_db():
                         age INTEGER,
                         experience INTEGER,
                         study TEXT,
+                        gender TEXT,
                         ip_address TEXT,
                         user_group TEXT)''')
 
@@ -75,18 +76,19 @@ def init_db():
     cursor.close()
     conn.close()
 
-def save_survey(user_id, age, experience, study, ip_address=None, user_group=None):
+def save_survey(user_id, age, experience, study, gender, ip_address=None, user_group=None):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('''INSERT INTO survey (user_id, age, experience, study, ip_address, user_group)
-                      VALUES (%s, %s, %s, %s, %s, %s)
+    cursor.execute('''INSERT INTO survey (user_id, age, experience, study, gender, ip_address, user_group)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s)
                       ON CONFLICT (user_id) DO UPDATE
                       SET age = EXCLUDED.age,
                           experience = EXCLUDED.experience,
                             study = EXCLUDED.study,
+                            gender = EXCLUDED.gender,
                           ip_address = EXCLUDED.ip_address,
                             user_group = EXCLUDED.user_group''',
-                   (user_id, age, experience, study, ip_address, user_group))
+                   (user_id, age, experience, study, gender, ip_address, user_group))
     conn.commit()
     cursor.close()
     conn.close()

@@ -144,6 +144,7 @@ def landing_page():
     study = st.radio("What is your field of study?", 
                      ["Economics related field (WiWi, VWL, BWL, WIng, WInf, ...)",
                      "Engineering, (Computer) Science or similar", "Science", "Other"])
+    gender = st.radio("What is your gender?", ["Female", "Male", "Diverse", "Other"])
 
 
     if st.button("Start Simulation", key="start_button_landing"):
@@ -155,11 +156,12 @@ def landing_page():
         st.session_state.age = age
         st.session_state.experience = experience
         st.session_state.study = study
+        st.session_state.gender = gender
         st.session_state.is_playing = True
         st.session_state.period = 6
         st.session_state.logs = []
         st.session_state.survey_completed = True
-        st.session_state.page = "Simulation"  # Direct redirect
+        st.session_state.page = "Simulation"  
 
         stocks = initialize_stocks()
         st.session_state.stocks = stocks
@@ -175,12 +177,12 @@ def landing_page():
             lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
             assert lunaris is not None, "Lunaris Ventures wurde nicht in stocks gefunden!"
             amount = 10.30715316
-            buy_price = round(lunaris.price_history[0], 2)  # Preis in Periode 1
+            buy_price = round(lunaris.price_history[0], 2) 
             player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": buy_price}
 
 
         ip = get_ip()
-        save_survey(user_id, age, experience, study, ip_address=ip, user_group="treatment" if is_alt_group else "control")
+        save_survey(user_id, age, experience, study, gender, ip_address=ip, user_group="treatment" if is_alt_group else "control")
 
         for period in range(1, 6):
             for stock in stocks:
