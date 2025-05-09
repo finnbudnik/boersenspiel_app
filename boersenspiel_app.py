@@ -145,6 +145,7 @@ def landing_page():
                      ["Economics related field (WiWi, VWL, BWL, WIng, WInf, ...)",
                      "Engineering, (Computer) Science or similar", "Science", "Other"])
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
+    mail = st.text_input("If you want your earnings to be paid, please insert your E-Mail", "Your E-Mail")
 
     if st.button("Start Simulation", key="start_button_landing"):
         user_id = generate_user_id()
@@ -156,6 +157,7 @@ def landing_page():
         st.session_state.experience = experience
         st.session_state.study = study
         st.session_state.gender = gender
+        st.session_state.mail = mail
         st.session_state.is_playing = True
         st.session_state.period = 6
         st.session_state.logs = []
@@ -181,7 +183,7 @@ def landing_page():
 
 
         ip = get_ip()
-        save_survey(user_id, age, experience, study, gender, ip_address=ip, user_group="treatment" if is_alt_group else "control")
+        save_survey(user_id, age, experience, study, gender, mail, ip_address=ip, user_group="treatment" if is_alt_group else "control")
 
         for period in range(1, 6):
             for stock in stocks:
