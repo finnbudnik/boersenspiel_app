@@ -228,7 +228,8 @@ def game_page():
                 st.rerun()
         else:
             st.success("🎉 Game Over!")
-            st.markdown("Thank you very much for participating!")
+            st.markdown("Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
+            "for emiiting a part of your gains - thanks to the sponsor of this game **AlloiBrands**.")
             st.markdown(f"**📈 Total Value:** {player.total_value(st.session_state.stocks):.2f}€")
 
     st.markdown("### 🏦 Stock Prices")
