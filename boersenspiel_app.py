@@ -272,35 +272,6 @@ def game_page():
             result = player.sell(stock_obj, amount, st.session_state.period)
         st.success(result)
 
-   # Stock charts
-    st.markdown("### 📉 Stock Price Trends")
-
-    selected_stock_chart = st.selectbox("Select a stock to view its price trend", [stock.name for stock in st.session_state.stocks])
-
-    selected_stock_obj = next((s for s in st.session_state.stocks if s.name == selected_stock_chart), None)
-    if selected_stock_obj:
-        current_period = st.session_state.period
-
-        # Zeige nur vergangene Perioden (bis einschließlich current_period - 1)
-        past_periods = list(range(1, current_period))
-        prices = selected_stock_obj.price_history[:current_period - 1]
-
-        fig, ax = plt.subplots(figsize=(6, 3))
-        ax.plot(past_periods, prices, marker="o", color="blue")
-        ax.set_title(f"{selected_stock_obj.name} Price Over Time")
-        ax.set_xlabel("Period")
-        ax.set_ylabel("Price (€)")
-        ax.set_xticks(past_periods)
-        ax.grid(True)
-        st.pyplot(fig)
-
-
-    if st.session_state.period == 15:
-        st.success("🎉 Game Over!")
-        total = player.total_value(st.session_state.stocks)
-        save_result(total, st.session_state.user_id)
-        st.markdown(f"**📈 Total Value:** {total:.2f}€")
-
     st.markdown("### 📊 Portfolio Overview")
     portfolio_data = []
     for stock_name, data in player.portfolio.items():
@@ -362,6 +333,35 @@ def game_page():
         st.dataframe(styled_df, use_container_width=True)
 
 
+    # Stock charts
+    st.markdown("### 📉 Stock Price Trends")
+
+    selected_stock_chart = st.selectbox("Select a stock to view its price trend", [stock.name for stock in st.session_state.stocks])
+
+    selected_stock_obj = next((s for s in st.session_state.stocks if s.name == selected_stock_chart), None)
+    if selected_stock_obj:
+        current_period = st.session_state.period
+
+        # Zeige nur vergangene Perioden (bis einschließlich current_period - 1)
+        past_periods = list(range(1, current_period))
+        prices = selected_stock_obj.price_history[:current_period - 1]
+
+        fig, ax = plt.subplots(figsize=(6, 3))
+        ax.plot(past_periods, prices, marker="o", color="blue")
+        ax.set_title(f"{selected_stock_obj.name} Price Over Time")
+        ax.set_xlabel("Period")
+        ax.set_ylabel("Price (€)")
+        ax.set_xticks(past_periods)
+        ax.grid(True)
+        st.pyplot(fig)
+
+
+    if st.session_state.period == 15:
+        st.success("🎉 Game Over!")
+        total = player.total_value(st.session_state.stocks)
+        save_result(total, st.session_state.user_id)
+        st.markdown(f"**📈 Total Value:** {total:.2f}€")
+
 
     st.markdown("### 📈 Portfolio Performance Over Time")
 
@@ -401,15 +401,15 @@ def admin_page():
 
 
 # Run App
-st.sidebar.title("📋 Navigation")
-if 'page' in st.session_state:
-    page = st.session_state.page
-else:
-    page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
+#st.sidebar.title("📋 Navigation")
+#if 'page' in st.session_state:
+#    page = st.session_state.page
+#else:
+#    page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
 
-if page == "Landing Page":
-    landing_page()
-elif page == "Simulation":
-    game_page()
-elif page == "Admin":
-    admin_page()
+#if page == "Landing Page":
+ #   landing_page()
+#elif page == "Simulation":
+#    game_page()
+#elif page == "Admin":
+#    admin_page()
