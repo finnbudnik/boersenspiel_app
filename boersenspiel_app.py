@@ -145,7 +145,7 @@ def landing_page():
                      ["Economics related field (WiWi, VWL, BWL, WIng, WInf, ...)",
                      "Engineering, (Computer) Science or similar", "Science", "Other"])
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
-    mail = st.text_input("If you want your earnings to be paid, please insert your E-Mail", "Your E-Mail")
+    mail = st.text_input("Please insert your E-Mail", "Your E-Mail")
 
     if st.button("Start Simulation", key="start_button_landing"):
         user_id = generate_user_id()
