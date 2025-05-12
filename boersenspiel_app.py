@@ -231,7 +231,69 @@ def game_page():
             st.markdown(f"**Your Total Value is** {player.total_value(st.session_state.stocks):.2f}€")
             st.markdown(f"Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
                         "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
-            
+
+    st.markdown("### 📊 Portfolio Overview")
+    portfolio_data = []
+    for stock_name, data in player.portfolio.items():
+        stock_obj = next(s for s in st.session_state.stocks if s.name == stock_name)
+        value = data["amount"] * stock_obj.price
+        change = ((stock_obj.price - data["buy_price"]) / data["buy_price"]) * 100 if data["buy_price"] != 0 else 0
+        gain_loss = round((stock_obj.price - data["buy_price"]) * data["amount"], 2)
+        portfolio_data.append([
+            stock_name,
+            data["amount"],
+            f"{round(data['buy_price'], 2):.2f}€",
+            f"{round(stock_obj.price, 2):.2f}€",
+            f"{round(value, 2):.2f}€",  # Value darf ruhig Zahl bleiben für Summe
+            f"{round(change, 2)}%",
+            f"{round(gain_loss, 2):.2f}€"
+        ])
+
+    portfolio_df = pd.DataFrame(
+        portfolio_data,
+        columns=["Stock", "Amount", "Buy Price", "Current Price", "Value (€)", "Change", "Gain/Loss (€)"]
+    )
+
+    total_value = player.total_value(st.session_state.stocks)
+    if not portfolio_df.empty:
+        # Gesamtberechnung für Total-Zeile
+        total_invested = sum(data["amount"] * data["buy_price"] for data in player.portfolio.values())
+        total_market_value = sum(
+            data["amount"] * next((s for s in st.session_state.stocks if s.name == name), None).price
+            for name, data in player.portfolio.items()
+        )
+
+        total_with_capital = total_market_value + player.capital
+        total_gain = round(total_market_value - total_invested, 2)
+        total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
+
+        # Capital
+        portfolio_df.loc[len(portfolio_df.index)] = ["Cash", "", "", "", f"{round(player.capital, 2):.2f}€", "", ""]
+
+
+        # Total
+        portfolio_df.loc[len(portfolio_df.index)] = [
+            "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
+        ]
+
+
+
+        def highlight_changes(val):
+            try:
+                if isinstance(val, str) and "%" in val:
+                    val = float(val.strip('%'))
+                elif isinstance(val, (int, float)):
+                    val = float(val)
+                color = 'green' if val > 0 else 'red' if val < 0 else 'black'
+                return f'color: {color}'
+            except:
+                return ""
+        
+        styled_df = portfolio_df.style.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
+        st.dataframe(styled_df, use_container_width=True)
+
+ 
+
     st.markdown("### 🏦 Stock Prices")
 
     # Vorperiode bestimmen
@@ -331,11 +393,6 @@ def game_page():
         styled_df = portfolio_df.style.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
         st.dataframe(styled_df, use_container_width=True)
 
-
-    st.markdown("### 📝 Actions History")
-    if player.actions:
-        st.dataframe(pd.DataFrame(player.actions))
-
     # Stock charts
     st.markdown("### 📉 Stock Price Trends")
 
@@ -378,6 +435,11 @@ def game_page():
         ax.set_xticks(periods)  # Beschriftung der X-Achse mit 1, 2, 3, ...
         ax.grid(True)
         st.pyplot(fig)
+
+    st.markdown("### 📝 Actions History")
+    if player.actions:
+        st.dataframe(pd.DataFrame(player.actions))
+
 
 def admin_page():
     st.title("🔐 Admin Dashboard")
