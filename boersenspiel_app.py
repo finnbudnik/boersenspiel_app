@@ -233,7 +233,7 @@ def game_page():
                         "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
 
 
-    st.markdown("### 🏦 Stock Prices")
+    '''st.markdown("### 🏦 Stock Prices")
 
     # Vorperiode bestimmen
     previous_period = max(1, st.session_state.period - 1)
@@ -270,7 +270,7 @@ def game_page():
             result = player.buy(stock_obj, amount, st.session_state.period)
         else:
             result = player.sell(stock_obj, amount, st.session_state.period)
-        st.success(result)
+        st.success(result)'''
 
     st.markdown("### 📊 Portfolio Overview")
     portfolio_data = []
@@ -331,6 +331,45 @@ def game_page():
         
         styled_df = portfolio_df.style.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
         st.dataframe(styled_df, use_container_width=True)
+
+    st.markdown("### 🏦 Stock Prices")
+
+    # Vorperiode bestimmen
+    previous_period = max(1, st.session_state.period - 1)
+
+    for stock in st.session_state.stocks:
+        try:
+            prev_price = stock.price_history[previous_period - 1]
+            change = stock.price_change(previous_period)
+        except IndexError:
+            prev_price = 0.0
+            change = 0.0
+        color = "green" if change >= 0 else "red"
+        st.markdown(
+            f"- **{stock.name}**: {prev_price:.2f}€ "
+            f"(<span style='color:{color}'>{change:+.2f}%</span>)",
+            unsafe_allow_html=True
+        )
+
+
+    # Ensure all stock prices are updated to the current period
+    for stock in st.session_state.stocks:
+        stock.update_price(st.session_state.period - 1)
+
+    st.markdown(f"**💰 Cash:** {player.capital:.2f}€")
+
+    st.markdown("### 💼 Trade Stocks")
+    action = st.selectbox("Choose Action", ["Buy", "Sell"])
+    selected_stock = st.selectbox("Choose Stock", [s.name for s in st.session_state.stocks])
+    amount = st.number_input("Amount", min_value=1, value=1)
+
+    if st.button("Execute"):
+        stock_obj = next(s for s in st.session_state.stocks if s.name == selected_stock)
+        if action == "Buy":
+            result = player.buy(stock_obj, amount, st.session_state.period)
+        else:
+            result = player.sell(stock_obj, amount, st.session_state.period)
+        st.success(result)
 
     # Stock charts
     st.markdown("### 📉 Stock Price Trends")
