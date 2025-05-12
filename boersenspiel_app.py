@@ -400,7 +400,10 @@ def admin_page():
 
 # Run App
 st.sidebar.title("📋 Navigation")
-page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
+if 'page' in st.session_state:
+    page = st.session_state.page
+else:
+    page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
 
 if page == "Landing Page":
     landing_page()
