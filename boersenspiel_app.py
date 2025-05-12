@@ -401,15 +401,15 @@ def admin_page():
 
 
 # Run App
-#st.sidebar.title("📋 Navigation")
-#if 'page' in st.session_state:
-#    page = st.session_state.page
-#else:
-#    page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
+st.sidebar.title("Navigation")
+if 'page' in st.session_state:
+    page = st.session_state.page
+else:
+    page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
 
-#if page == "Landing Page":
- #   landing_page()
-#elif page == "Simulation":
-#    game_page()
-#elif page == "Admin":
-#    admin_page()
+if page == "Landing Page":
+    landing_page()
+elif page == "Simulation":
+    game_page()
+elif page == "Admin":
+    admin_page()
