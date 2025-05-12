@@ -233,7 +233,7 @@ def game_page():
                         "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
 
 
-    '''st.markdown("### 🏦 Stock Prices")
+    st.markdown("### 🏦 Stock Prices")
 
     # Vorperiode bestimmen
     previous_period = max(1, st.session_state.period - 1)
@@ -270,7 +270,7 @@ def game_page():
             result = player.buy(stock_obj, amount, st.session_state.period)
         else:
             result = player.sell(stock_obj, amount, st.session_state.period)
-        st.success(result)'''
+        st.success(result)
 
     st.markdown("### 📊 Portfolio Overview")
     portfolio_data = []
