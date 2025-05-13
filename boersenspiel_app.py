@@ -227,10 +227,13 @@ def game_page():
                 st.session_state.period += 1
                 st.rerun()
         else:
-            st.success("🎉 Game Over!")
-            st.markdown(f"**Your Total Value is** {player.total_value(st.session_state.stocks):.2f}€")
-            st.markdown(f"Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
-                        "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
+            st.session_state.page = "Final"
+            st.rerun()
+
+#            st.success("🎉 Game Over!")
+ #           st.markdown(f"**Your Total Value is** {player.total_value(st.session_state.stocks):.2f}€")
+  #          st.markdown(f"Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
+   #                     "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
 
 
     st.markdown("### Recent Price Updates")
@@ -380,6 +383,16 @@ def game_page():
     if player.actions:
         st.dataframe(pd.DataFrame(player.actions))
 
+def final_page():
+    st.title("Vielen Dank für deine Teilnahme!")
+    st.success("Dein Ergebnis wurde erfolgreich gespeichert.")
+
+    # Optional: Zeige individuelle Daten, wie Score, Feedback etc.
+    if "score" in st.session_state:
+        st.write(f"Dein Score: **{st.session_state.score} Punkte**")
+
+    st.write("Wenn du Fragen oder Feedback hast, schreib uns gerne eine E-Mail.")
+
 
 def admin_page():
     st.title("🔐 Admin Dashboard")
@@ -414,5 +427,7 @@ if page == "Landing Page":
     landing_page()
 elif page == "Simulation":
     game_page()
+elif page == "Final":
+    final_page()
 elif page == "Admin":
     admin_page()
