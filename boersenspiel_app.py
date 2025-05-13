@@ -126,6 +126,8 @@ def landing_page():
     "period 6. At the beginning of each period, you may execute an unlimited number of trades - completely free of transaction " \
     "fees and taxes. You'll be randomly provided with a combination of cash and/or gifted stocks, totalling 1000€ in value.")
 
+    st.markdown("**You have the chance to get a percentage of your gains payed out.** For this reason only, please insert your E-Mail adress down below.")
+
     st.markdown("Stock prices are updated each time you click the **\"Next Period\"** Button. Your objective is to make smart " \
     "buy and sell decisions to maximize your total portfolio value by period 15, based on past price movements. Each of the " \
     "five stocks has a distinct probability of increasing in value: 40%, 45%, 50%, 55%, or 60%. This means two stocks are more likely " \
@@ -133,7 +135,7 @@ def landing_page():
     "rise by up to 6%, or fall by up to 5%, resulting in overall market growth. ")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the **\"Start Simulation\"** " \
-    "button, you agree to your data being retained for 90 days and used for research and analysis.")
+    "button, you agree to your data being retained for 90 days and used for research and analysis. Your E-Mail is used only for contact")
 
     st.markdown("Thank you for your participation - and enjoy the game! Please start by completing the survey and start the " \
     "game by pressing the \"Start simulation\" button. then switch to the simulation via the navigation bar.")
@@ -390,8 +392,12 @@ def final_page():
     else:
         st.warning("Total value not found. Please make sure you completed the simulation.")
 
-    st.write("Thank you for participating! We really appreciate your time and effort. If you inserted your PayPal in the beginning" \
-    " you will receive a percentage of your gains emitted as soon as possible.")
+    st.write("Thank you for participating! We really appreciate your time and effort. If you inserted your E-Mail in the beginning" \
+    " you have the chance of receivieng a percentage of your gains payed out. Please be aware, that the emission may take some time, you will "
+    "be contacted via E-Mail. Emission is only" \
+    " possible, if a valid E-mail adress is inserted in the survey. We reserve " \
+    "the right to cap the payout and withhold if necessary. Multiple payouts are not possible, only the first completed " \
+    "game will be taken into account.")
 
 
 def admin_page():
