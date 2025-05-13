@@ -124,27 +124,32 @@ def landing_page():
 
     st.markdown("In this simulation, you'll manage a portfolio of five fictional stocks over 15 periods, starting from " \
     "period 6. At the beginning of each period, you may execute an unlimited number of trades - completely free of transaction " \
-    "fees and taxes. You'll be randomly provided with a combination of cash and/or gifted stocks, totalling 1000€ in value.")
+    "fees and taxes. You'll be randomly provided with a combination of cash and/or gifted stocks, totaling 1000€ in value.")
 
-    st.markdown("**You have the chance to get a percentage of your gains payed out.** For this reason only, please insert your E-Mail adress down below.")
+    st.markdown("**You have the chance to receive a percentage of your gains paid out in real money.**")
 
-    st.markdown("Stock prices are updated each time you click the **\"Next Period\"** Button. Your objective is to make smart " \
+    st.markdown("Stock prices are updated each time you click the **\"Next Period\"** Button and never remain constant. Your objective is to make smart " \
     "buy and sell decisions to maximize your total portfolio value by period 15, based on past price movements. Each of the " \
-    "five stocks has a distinct probability of increasing in value: 40%, 45%, 50%, 55%, or 60%. This means two stocks are more likely " \
-    "to rise, two are more likely to fall and one is neutral - but which is which remains unknown. In each period, prices can " \
-    "rise by up to 6%, or fall by up to 5%, resulting in overall market growth. ")
+    "five stocks has a distinct probability of increasing in value: 40%, 45%, 50%\ 55%, or 60%. This means two stocks are more likely " \
+    "to rise, two are more likely to fall and one is neutral - but which is which remains unknown.")
+
+    st.markdown("If a stock increases ina given period, the size of that increase (1%, 2%, 3%, 4%, 5% \or 6%) is random and equally likely. " \
+    "The same applies to decreases, which range from 1% to only 5%. What differs is how likely it is that a stock will go up or down, not the size " \
+    "of the change.")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the **\"Start Simulation\"** " \
-    "button, you agree to your data being retained for 90 days and used for research and analysis. Your E-Mail is used only for contact")
+    "button, you agree to your data being retained for 90 days and used for research and analysis. To be eligible, please enter your " \
+    "E-Mail adress below. Your email will be used solely for this purpose. If you don't want to participate, you can leave the spot blank, but still " \
+    "play the game.")
 
-    st.markdown("Thank you for your participation - and enjoy the game! Please start by completing the survey and start the " \
-    "game by pressing the \"Start simulation\" button. then switch to the simulation via the navigation bar.")
+    st.markdown("Thank you for participating - and enjoy the game! Please start by completing the survey and start the " \
+    "game by pressing the \"Start simulation\" button.")
 
     st.subheader("Survey")
     age = st.slider("How old are you?", 18, 70, 30)
     gender = st.radio("What is your gender?", ["Male", "Female", "Diverse", "Other"])
     study = st.radio("What is your field of study?", 
-                     ["Economics or Law (incl. WiWi, VWL, BWL, WIng, WInf, ...)",
+                     ["Economics related field (incl. WiWi, VWL, BWL, WIng, WInf, ...)",
                      "Engineering, Computer Science or similar ", "Natural Science", "Social science or Humanities" ,"Other"])
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
     mail = st.text_input("Please insert your E-Mail", "Your E-Mail")
