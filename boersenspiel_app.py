@@ -220,15 +220,20 @@ def game_page():
         if st.session_state.period < 15:
             if st.button("➡️ Next Period"):
                 random.seed(st.session_state.period)
-
                 for stock in st.session_state.stocks:
                     stock.update_price(st.session_state.period)
                 st.session_state.player.track_performance(st.session_state.stocks)
                 st.session_state.period += 1
                 st.rerun()
-        else:
+        elif st.session_state.get("total_value") is None:
+            # ✅ Berechne und speichere den Total Value nur einmal
+            player = st.session_state.player
+            total = player.total_value(st.session_state.stocks)
+            st.session_state.total_value = total
+            save_result(total, st.session_state.user_id)
             st.session_state.page = "Final"
             st.rerun()
+
 
 #            st.success("🎉 Game Over!")
  #           st.markdown(f"**Your Total Value is** {player.total_value(st.session_state.stocks):.2f}€")
