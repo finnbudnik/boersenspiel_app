@@ -397,12 +397,16 @@ def final_page():
     else:
         st.warning("Total value not found. Please make sure you completed the simulation.")
 
-    st.write("Thank you for participating! We really appreciate your time and effort. If you inserted your E-Mail in the beginning" \
-    " you have the chance of receivieng a percentage of your gains payed out. Please be aware, that the emission may take some time, you will "
-    "be contacted via E-Mail. Emission is only" \
-    " possible, if a valid E-mail adress is inserted in the survey. We reserve " \
-    "the right to cap the payout and withhold if necessary. Multiple payouts are not possible, only the first completed " \
-    "game will be taken into account.")
+    st.write("**Thank you for participating!**")
+
+    st.markdown("We truly appreciate your time and effort.")
+
+    st.markdown("If you provided your email address at the beginning, you are eligible to receive a percentage of your " \
+    "gains paid out. Please note that the payout process may take some time.")
+
+    st.markdown("Payouts are only possible if a valid email address was entered in the initial survey. We reserve the right to " \
+    "cap or withhold payouts if necessary. Only the first completed simulation will be considered; multiple entries are not " \
+    "eligible for multiple payouts.")
 
 
 def admin_page():
