@@ -313,7 +313,7 @@ def game_page():
 
         # Total
         portfolio_df.loc[len(portfolio_df.index)] = [
-            "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
+            "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_with_capital - 1000, 2):.2f}€"
         ]
 
         def highlight_changes(val):
