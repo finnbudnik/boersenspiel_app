@@ -387,9 +387,12 @@ def final_page():
     st.title("Vielen Dank für deine Teilnahme!")
     st.success("Dein Ergebnis wurde erfolgreich gespeichert.")
 
-    # Optional: Zeige individuelle Daten, wie Score, Feedback etc.
-    if "score" in st.session_state:
-        st.write(f"Dein Score: **{st.session_state.score} Punkte**")
+    st.subheader("Your Final Result:")
+    
+    if "total_value" in st.session_state:
+        st.metric(label="💰 Total Value", value=f"${st.session_state.total_value:,.2f}")
+    else:
+        st.warning("Total value not found. Please make sure you completed the simulation.")
 
     st.write("Wenn du Fragen oder Feedback hast, schreib uns gerne eine E-Mail.")
 
