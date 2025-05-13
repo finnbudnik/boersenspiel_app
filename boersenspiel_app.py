@@ -142,10 +142,10 @@ def landing_page():
 
     st.subheader("Survey")
     age = st.slider("How old are you?", 18, 70, 30)
-    gender = st.radio("What is your gender?", ["Female", "Male", "Diverse", "Other"])
+    gender = st.radio("What is your gender?", ["Male", "Female", "Diverse", "Other"])
     study = st.radio("What is your field of study?", 
-                     ["Economics related field (WiWi, VWL, BWL, WIng, WInf, ...)",
-                     "Engineering, (Computer) Science or similar", "Science", "Other"])
+                     ["Economics or Law (incl. WiWi, VWL, BWL, WIng, WInf, ...)",
+                     "Engineering, Computer Science or similar ", "Natural Science", "Social science or Humanities" ,"Other"])
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
     mail = st.text_input("Please insert your E-Mail", "Your E-Mail")
 
