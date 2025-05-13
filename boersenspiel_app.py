@@ -363,6 +363,7 @@ def game_page():
         st.success("🎉 Game Over!")
         total = player.total_value(st.session_state.stocks)
         save_result(total, st.session_state.user_id)
+        st.session_state.total_value = total
         st.markdown(f"**📈 Total Value:** {total:.2f}€")
 
 
