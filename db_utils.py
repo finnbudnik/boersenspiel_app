@@ -2,6 +2,7 @@ import psycopg2
 import pandas as pd
 import streamlit as st
 import os
+from datetime import datetime
 
 # Verbindung zur Datenbank
 DB_HOST = os.getenv("DB_HOST")
@@ -79,8 +80,8 @@ def init_db():
 def save_survey(user_id, age, experience, study, gender, mail, ip_address=None, user_group=None):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('''INSERT INTO survey (user_id, age, experience, study, gender, mail, ip_address, user_group)
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    cursor.execute('''INSERT INTO survey (user_id, age, experience, study, gender, mail, ip_address, user_group, start_time)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                       ON CONFLICT (user_id) DO UPDATE
                       SET age = EXCLUDED.age,
                           experience = EXCLUDED.experience,
@@ -88,8 +89,10 @@ def save_survey(user_id, age, experience, study, gender, mail, ip_address=None, 
                             gender = EXCLUDED.gender,
                             mail = EXCLUDED.mail,
                           ip_address = EXCLUDED.ip_address,
-                            user_group = EXCLUDED.user_group''',
-                   (user_id, age, experience, study, gender, mail, ip_address, user_group))
+                            user_group = EXCLUDED.user_group,
+                            start_time = EXCLUDED.start_time ''',
+
+                   (user_id, age, experience, study, gender, mail, ip_address, user_group, datetime.now()))
     conn.commit()
     cursor.close()
     conn.close()

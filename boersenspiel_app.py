@@ -135,11 +135,11 @@ def landing_page():
 
     st.markdown("If a stock increases in a given period, the size of that increase (1%, 2%, 3%, 4%, 5%, or 6%) is random and equally likely. " \
     "The same applies to decreases, which range from 1% to only 5%. What differs is how likely it is that a stock will go up or down, not the size " \
-    "of the change.")
+    "of the change. This setup allows for realistic price movements while ensuring overall market growth across the simulation.")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the \"Start Simulation\" " \
     "button, you agree to your data being retained for 90 days and used for research and analysis. To be eligible, please enter your " \
-    "E-Mail adress below. Your email will be used solely for this purpose. If you don't want to participate, you can leave the spot blank, but still " \
+    "email address below. Your email will be used solely for this purpose. If you don't want to participate, you can leave the spot blank, but still " \
     "play the game.")
 
     st.markdown("**Thank you for participating - and enjoy the game!** Please start by completing the survey and start the " \
@@ -152,7 +152,7 @@ def landing_page():
                      ["Economics related field (incl. WiWi, VWL, BWL, WIng, WInf, ...)",
                      "Engineering, Computer Science or similar ", "Natural Science", "Social Science or Humanities" ,"Other"])
     experience = st.slider("On a scale of 1 (Beginner) to 10 (Expert) what is your experience with trading?", 1, 10, 5)
-    mail = st.text_input("Please insert your E-Mail", "Your E-Mail")
+    mail = st.text_input("Please insert your email address", "Your email")
 
     if st.button("Start Simulation", key="start_button_landing"):
         user_id = generate_user_id()
