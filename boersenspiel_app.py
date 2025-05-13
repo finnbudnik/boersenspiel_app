@@ -226,20 +226,12 @@ def game_page():
                 st.session_state.period += 1
                 st.rerun()
         elif st.session_state.get("total_value") is None:
-            # ✅ Berechne und speichere den Total Value nur einmal
             player = st.session_state.player
             total = player.total_value(st.session_state.stocks)
             st.session_state.total_value = total
             save_result(total, st.session_state.user_id)
             st.session_state.page = "Final"
             st.rerun()
-
-
-#            st.success("🎉 Game Over!")
- #           st.markdown(f"**Your Total Value is** {player.total_value(st.session_state.stocks):.2f}€")
-  #          st.markdown(f"Thank you very much for participating! If you inserted your E-Mail you will be contacted soon " \
-   #                     "for emitting your total gains - thanks to the sponsor of this project **AlloiBrands**.")
-
 
     st.markdown("### Recent Price Updates")
 
@@ -324,8 +316,6 @@ def game_page():
             "Total", "", "", "", f"{round(total_with_capital, 2):.2f}€", f"{total_change}%", f"{round(total_gain, 2):.2f}€"
         ]
 
-
-
         def highlight_changes(val):
             try:
                 if isinstance(val, str) and "%" in val:
@@ -390,17 +380,18 @@ def game_page():
         st.dataframe(pd.DataFrame(player.actions))
 
 def final_page():
-    st.title("Vielen Dank für deine Teilnahme!")
-    st.success("Dein Ergebnis wurde erfolgreich gespeichert.")
+    st.title("Game over!")
+    st.success("Your result was successfully safed.")
 
     st.subheader("Your Final Result:")
     
     if "total_value" in st.session_state:
-        st.metric(label="💰 Total Value", value=f"${st.session_state.total_value:,.2f}")
+        st.metric(label="Total Value", value=f"{st.session_state.total_value:,.2f}€")
     else:
         st.warning("Total value not found. Please make sure you completed the simulation.")
 
-    st.write("Wenn du Fragen oder Feedback hast, schreib uns gerne eine E-Mail.")
+    st.write("Thank you for participating! We really appreciate your time and effort. If you inserted your PayPal in the beginning" \
+    " you will receive a percentage of your gains emitted.")
 
 
 def admin_page():
@@ -423,14 +414,7 @@ def admin_page():
 
 
 # Run App
-
 page = st.session_state.get("page", "Landing Page")
-
-#st.sidebar.title("Navigation")
-#if 'page' in st.session_state:
-#    page = st.session_state.page
-#else:
-#    page = st.sidebar.radio("Go to", ["Landing Page", "Simulation", "Admin"])
 
 if page == "Landing Page":
     landing_page()
