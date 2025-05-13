@@ -305,7 +305,7 @@ def game_page():
 
         total_with_capital = total_market_value + player.capital
         total_gain = round(total_market_value - total_invested, 2)
-        total_change = round(((total_market_value / total_invested - 1) * 100), 2) if total_invested else 0.0
+        total_change = round(((total_with_capital / 1000 - 1) * 100), 2) if total_invested else 0.0
 
         # Capital
         portfolio_df.loc[len(portfolio_df.index)] = ["Cash", "", "", "", f"{round(player.capital, 2):.2f}€", "", ""]
@@ -391,7 +391,7 @@ def final_page():
         st.warning("Total value not found. Please make sure you completed the simulation.")
 
     st.write("Thank you for participating! We really appreciate your time and effort. If you inserted your PayPal in the beginning" \
-    " you will receive a percentage of your gains emitted.")
+    " you will receive a percentage of your gains emitted as soon as possible.")
 
 
 def admin_page():
