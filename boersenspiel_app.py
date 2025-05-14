@@ -337,25 +337,18 @@ def game_page():
         styled_df = portfolio_df.style.applymap(highlight_changes, subset=["Change", "Gain/Loss (€)"])
         st.dataframe(styled_df, use_container_width=True)
 
-
     # Stock charts
     st.markdown("### 📉 Stock Price Trends")
 
-    # Checkbox: Nur Aktien im eigenen Portfolio anzeigen
-    show_only_my_stocks = st.checkbox("Show only my stocks", value=False)
-
-    # Aktienliste basierend auf der Auswahl filtern
-    if show_only_my_stocks:
-        available_stocks = [stock.name for stock in st.session_state.stocks if st.session_state.portfolio.get(stock.name, 0) > 0]
-    else:
-        available_stocks = [stock.name for stock in st.session_state.stocks]
+    # Liste aller verfügbaren Aktien
+    available_stocks = [stock.name for stock in st.session_state.stocks]
 
     # Session-State initialisieren, um Auswahl zu speichern
     if "selected_stocks_chart" not in st.session_state or not set(st.session_state.selected_stocks_chart).issubset(set(available_stocks)):
-        # Auswahl zurücksetzen, wenn Auswahl nicht mehr verfügbar (z. B. nach Verkauf)
+        # Auswahl zurücksetzen, wenn z. B. Aktien entfernt wurden
         st.session_state.selected_stocks_chart = available_stocks[:1] if available_stocks else []
 
-    # Multi-Select: Auswahl bleibt erhalten
+    # Multi-Select: Auswahl bleibt über Perioden erhalten
     selected_stocks = st.multiselect(
         "Select one or more stocks to compare their price trends",
         available_stocks,
@@ -382,7 +375,6 @@ def game_page():
         ax.grid(True)
         ax.legend()
         st.pyplot(fig)
-
 
 
 
