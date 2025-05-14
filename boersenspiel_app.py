@@ -126,8 +126,6 @@ def landing_page():
     "period 6. At the beginning of each period, you may execute an unlimited number of trades - completely free of transaction " \
     "fees and taxes. You'll be randomly provided with a combination of cash and/or gifted stocks, totaling **1000€** in value.")
 
-    st.markdown("**You have the chance to receive a percentage of your gains paid out in real money.**")
-
     st.markdown("Stock prices are updated each time you click the \"Next Period\" Button and never remain constant. Your objective is to make smart " \
     "buy and sell decisions to maximize your total portfolio value by period 15, based on past price movements. Each of the " \
     "five stocks has a distinct probability of increasing in value: 40%, 45%, 50%, 55%, or 60%. This means two stocks are more likely " \
@@ -136,6 +134,8 @@ def landing_page():
     st.markdown("If a stock increases in a given period, the size of that increase (1€, 2€ or 3€) is random and equally likely. " \
     "The same applies to decreases, which range from 1€ to 2€. What differs is how likely it is that a stock will go up or down, not the size " \
     "of the change.")
+
+    st.markdown("**You have the chance to receive a percentage of your gains paid out in real money.**")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the \"Start Simulation\" " \
     "button, you agree to your data being retained for 90 days and used for research and analysis. To be eligible, please enter your " \
