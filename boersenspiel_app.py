@@ -341,12 +341,29 @@ def game_page():
     # Stock charts
     st.markdown("### 📉 Stock Price Trends")
 
+    # Checkbox: Nur Aktien im eigenen Portfolio anzeigen
+    show_only_my_stocks = st.checkbox("Show only my stocks", value=False)
+
+    # Aktienliste basierend auf der Auswahl filtern
+    if show_only_my_stocks:
+        available_stocks = [stock.name for stock in st.session_state.stocks if st.session_state.portfolio.get(stock.name, 0) > 0]
+    else:
+        available_stocks = [stock.name for stock in st.session_state.stocks]
+
+    # Session-State initialisieren, um Auswahl zu speichern
+    if "selected_stocks_chart" not in st.session_state or not set(st.session_state.selected_stocks_chart).issubset(set(available_stocks)):
+        # Auswahl zurücksetzen, wenn Auswahl nicht mehr verfügbar (z. B. nach Verkauf)
+        st.session_state.selected_stocks_chart = available_stocks[:1] if available_stocks else []
+
+    # Multi-Select: Auswahl bleibt erhalten
     selected_stocks = st.multiselect(
         "Select one or more stocks to compare their price trends",
-        [stock.name for stock in st.session_state.stocks],
-        default=[st.session_state.stocks[0].name]
+        available_stocks,
+        default=st.session_state.selected_stocks_chart,
+        key="selected_stocks_chart"
     )
 
+    # Plot zeichnen, falls Auswahl vorhanden ist
     if selected_stocks:
         fig, ax = plt.subplots(figsize=(8, 4))
         current_period = st.session_state.period
@@ -365,6 +382,7 @@ def game_page():
         ax.grid(True)
         ax.legend()
         st.pyplot(fig)
+
 
 
 
