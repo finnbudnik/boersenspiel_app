@@ -138,7 +138,7 @@ def landing_page():
     st.markdown("**You have the chance to receive a percentage of your gains paid out in real money.**")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the \"Start Simulation\" " \
-    "button, you agree to your data being retained for 90 days and used for research and analysis. To receive the payout, please enter your " \
+    "button, you agree to your data being retained for 90 days and used for research and analysis. To receive a payout, please enter your " \
     "email address below. Your email will be used solely for this purpose. If you don't want to participate, you can leave the spot blank, but still " \
     "play the game.")
 
