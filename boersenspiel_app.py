@@ -185,7 +185,7 @@ def landing_page():
             lunaris = next((s for s in stocks if s.name == "Lunaris Ventures"), None)
             assert lunaris is not None, "Lunaris Ventures wurde nicht in stocks gefunden!"
             amount = 9.174311927
-            buy_price = round(lunaris.price_history[4], 2) 
+            buy_price = round(lunaris.price_history[0], 2) 
             player.portfolio["Lunaris Ventures"] = {"amount": amount, "buy_price": buy_price}
 
 
@@ -341,24 +341,31 @@ def game_page():
     # Stock charts
     st.markdown("### 📉 Stock Price Trends")
 
-    selected_stock_chart = st.selectbox("Select a stock to view its price trend", [stock.name for stock in st.session_state.stocks])
+    selected_stocks = st.multiselect(
+        "Select one or more stocks to compare their price trends",
+        [stock.name for stock in st.session_state.stocks],
+        default=[st.session_state.stocks[0].name]
+    )
 
-    selected_stock_obj = next((s for s in st.session_state.stocks if s.name == selected_stock_chart), None)
-    if selected_stock_obj:
+    if selected_stocks:
+        fig, ax = plt.subplots(figsize=(8, 4))
         current_period = st.session_state.period
-
-        # Zeige nur vergangene Perioden (bis einschließlich current_period - 1)
         past_periods = list(range(1, current_period))
-        prices = selected_stock_obj.price_history[:current_period - 1]
 
-        fig, ax = plt.subplots(figsize=(6, 3))
-        ax.plot(past_periods, prices, marker="o", color="blue")
-        ax.set_title(f"{selected_stock_obj.name} Price Over Time")
+        for stock_name in selected_stocks:
+            stock_obj = next((s for s in st.session_state.stocks if s.name == stock_name), None)
+            if stock_obj:
+                prices = stock_obj.price_history[:current_period - 1]
+                ax.plot(past_periods, prices, marker="o", label=stock_name)
+
+        ax.set_title("Stock Price Trends Over Time")
         ax.set_xlabel("Period")
         ax.set_ylabel("Price (€)")
         ax.set_xticks(past_periods)
         ax.grid(True)
+        ax.legend()
         st.pyplot(fig)
+
 
 
     if st.session_state.period == 15:
