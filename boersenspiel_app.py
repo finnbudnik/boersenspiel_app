@@ -135,7 +135,7 @@ def landing_page():
 
     st.markdown("If a stock increases in a given period, the size of that increase (1€, 2€ or 3€) is random and equally likely. " \
     "The same applies to decreases, which range from 1€ to 2€. What differs is how likely it is that a stock will go up or down, not the size " \
-    "of the change. This setup allows for realistic price movements while ensuring overall market growth across the simulation.")
+    "of the change.")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the \"Start Simulation\" " \
     "button, you agree to your data being retained for 90 days and used for research and analysis. To be eligible, please enter your " \
