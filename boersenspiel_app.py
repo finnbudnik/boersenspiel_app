@@ -133,8 +133,8 @@ def landing_page():
     "five stocks has a distinct probability of increasing in value: 40%, 45%, 50%, 55%, or 60%. This means two stocks are more likely " \
     "to rise, two are more likely to fall and one is neutral - but which is which remains unknown.")
 
-    st.markdown("If a stock increases in a given period, the size of that increase (1%, 2%, 3%, 4%, 5%, or 6%) is random and equally likely. " \
-    "The same applies to decreases, which range from 1% to only 5%. What differs is how likely it is that a stock will go up or down, not the size " \
+    st.markdown("If a stock increases in a given period, the size of that increase (1€, 2€ or 3€) is random and equally likely. " \
+    "The same applies to decreases, which range from 1€ to 2€. What differs is how likely it is that a stock will go up or down, not the size " \
     "of the change. This setup allows for realistic price movements while ensuring overall market growth across the simulation.")
 
     st.markdown("**Please note:** Your data is securely stored and used strictly for academic purposes. By clicking the \"Start Simulation\" " \
